@@ -4,6 +4,8 @@ package TestCases;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import properties.BaseConfigData;
 import properties.Singleton;
 import ru.pages.GamePage;
@@ -28,22 +30,35 @@ public class SecondTestCase extends BaseConfigData {
     public void test(){
 
         String message = "Values aren`t equals";
+        String pageMessage = "Page was not achieved";
 
-        mainPage.page();
+        mainPage.page().click();
+        Assert.assertTrue(pageMessage, mainPage.page().isDisplayed());
 
         mainPage.mainPageUniqueElement();
 
         mainPage.topSellers();
+        Assert.assertTrue(pageMessage, driver.getCurrentUrl().contains("/topselling/"));
 
         topSellersPage.topSellersPageUniqueElement();
 
         topSellersPage.showMoreSellers();
+        Assert.assertTrue(pageMessage, driver.getCurrentUrl().contains("=topsellers"));
 
         topSellersPage.checkboxOS();
+        WebElement checkOS = driver.findElement(By.xpath(topSellersPage.selectorOS()));
+        String os = checkOS.getAttribute("class");
+        Assert.assertTrue("Checkbox 'SteamOS + Linux' was not selected", os.contains("checked"));
 
         topSellersPage.checkboxAction();
+        WebElement checkTag = driver.findElement(By.xpath(topSellersPage.selectorTag()));
+        String action = checkTag.getAttribute("class");
+        Assert.assertTrue("Checkbox 'Action' was not selected", action.contains("checked"));
 
         topSellersPage.checkboxLanCoop();
+        WebElement checkNumber = driver.findElement(By.xpath(topSellersPage.selectorNumberOfPlayers()));
+        String lan = checkNumber.getAttribute("class");
+        Assert.assertTrue("Checkbox 'LAN Co-op' was not selected", lan.contains("checked"));
 
 
         int numAfterRequest = topSellersPage.countOfGamesAfterRequest();
@@ -55,6 +70,7 @@ public class SecondTestCase extends BaseConfigData {
         String firstCostGame = topSellersPage.costGame();
 
         topSellersPage.clickTopFirstGame();
+        Assert.assertTrue(pageMessage, driver.getCurrentUrl().contains("/app"));
 
         gamePage.gamePageUniqueElement();
 

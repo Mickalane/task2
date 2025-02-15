@@ -15,17 +15,20 @@ public class MainPage {
         this.driver = webDriver;
     }
     
-    public void page(){
-        driver.findElement(By.xpath("//*[@id='logo_holder']/child::a")).click();
+    public WebElement page(){
+        return driver.findElement(By.xpath("//*[@id='logo_holder']/child::a"));
     }
+
     public void mainPageUniqueElement() {
         new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@class='gutter_header gutter_top']")));
     }
+
     public void clickAbout(){
         String about = "//a[contains(@href,'/about/') and contains(@href,'global-header')]";
         driver.findElement(By.xpath(about)).click();
     }
+
     public void clickStore(){
         String store = "//div[@class='supernav_container']/child::a[contains(@data-tooltip-content,'Store')]";
         driver.findElement(By.xpath(store)).click();
@@ -38,15 +41,4 @@ public class MainPage {
 
         driver.findElement(By.xpath("//a[@class='popup_menu_item' and contains(@href,'topselling')]")).click();
     }
-
-    public void changeLanguageToEnglish(){
-        driver.findElement(By.xpath("//*[@id='language_pulldown']")).click();
-        WebElement lang = new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@onclick,'english')]")));
-        lang.click();
-
-        new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.urlContains("store.steampowered.com/"));
-    }
-
 }

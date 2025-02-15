@@ -3,8 +3,11 @@ package properties;
 import org.openqa.selenium.WebDriver;
 
 public class Singleton {
+
     private static Singleton instance = null;
     private static WebDriver driver;
+
+
 
     public static Singleton getInstance() {
         if (instance == null) {

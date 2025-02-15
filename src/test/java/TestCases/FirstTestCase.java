@@ -3,6 +3,8 @@ package TestCases;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import properties.BaseConfigData;
 import properties.Singleton;
 import ru.pages.AboutPage;
@@ -15,18 +17,22 @@ public class FirstTestCase extends BaseConfigData {
     @Before
     public void set() {
         driver = Singleton.getInstance().getDriver();
-        driver.get("https://store.steampowered.com/");
         mainPage = new MainPage(driver);
         aboutPage = new AboutPage(driver);
     }
 
     @Test
     public void test() {
-        mainPage.page();
+        String pageMessage = "Page was not open";
+
+        Assert.assertTrue(pageMessage, mainPage.page().isDisplayed());
 
         mainPage.mainPageUniqueElement();
 
+
+
         mainPage.clickAbout();
+        Assert.assertTrue(pageMessage, driver.getCurrentUrl().contains("/about/"));
 
         aboutPage.aboutPageUniqueElement();
 
@@ -35,5 +41,6 @@ public class FirstTestCase extends BaseConfigData {
         Assert.assertTrue("Online players aren`t greater than gamers that playing now",onlineNum > playingNowNum);
 
         mainPage.clickStore();
+        Assert.assertTrue(pageMessage, driver.getCurrentUrl().contains("/store"));
     }
 }
